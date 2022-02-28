@@ -27,11 +27,25 @@ class _SucceedWidget extends State<SucceedWidget> {
   String username;
   String title;
 
+  AssetImage image;
+
+  @override
+  void initState() {
+    super.initState();
+    image = AssetImage('assets/images/success.gif');
+  }
+
+  @override
+  void dispose() {
+    image.evict();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Stream<String> display() {
       return Stream.periodic(Duration(seconds: 1), (i) {
-        if (i == 6) {
+        if (i == 4) {
           if (type == "login") {
             // 成功后跳转到 信息页/ 完善信息页
             methodHasPublished(this.username).then((value) {
@@ -41,6 +55,7 @@ class _SucceedWidget extends State<SucceedWidget> {
                     arguments: {
                       "username": this.username,
                     });
+                return;
               }
               // 没发布过，则跳转到完善信息页面
               Navigator.popAndPushNamed(context, "/requster_publish",
@@ -53,7 +68,7 @@ class _SucceedWidget extends State<SucceedWidget> {
             });
           }
         }
-        return '将在 ${5 - i} 秒后跳转';
+        return '将在 ${3 - i} 秒后跳转';
       });
     }
 
@@ -79,7 +94,9 @@ class _SucceedWidget extends State<SucceedWidget> {
                         // border: Border.all(color: Colors.white70, width: 15),
                         borderRadius: BorderRadius.circular(150),
                       ),
-                      child: Image.asset('assets/images/success.gif'),
+                      child: Image(
+                        image: image,
+                      ),
                     ),
                   ),
                   Padding(

@@ -2,19 +2,8 @@
 // pointer, showing a count of the number of entries and exits.
 
 import 'package:flutter/material.dart';
-// import 'dart:io';
 
-// String os = Platform.operatingSystem;
-// Map<String, String> envVars = Platform.environment;
-// final home = Platform.isMacOS || Platform.isLinux? envVars['HOME']: Platform.isWindows? envVars["UserProfile"]: "/";
-
-class KekkonWidget extends StatefulWidget {
-  KekkonWidget({Key key}) : super(key: key);
-  @override
-  _KekkonWidget createState() => _KekkonWidget();
-}
-
-class _KekkonWidget extends State<KekkonWidget> {
+class KekkonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

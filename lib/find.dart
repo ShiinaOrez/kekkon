@@ -4,6 +4,18 @@ import 'globals.dart' as globals;
 
 final TextEditingController weChatController = new TextEditingController();
 
+Widget makeTextRow(String content) {
+  return Row(
+    children: [
+      SizedBox(width: 20),
+      Text(content,
+          style: TextStyle(
+            decoration: TextDecoration.underline,
+          )),
+    ],
+  );
+}
+
 Widget makeInfoCard(BuildContext context, String username, Map data) {
   return InkWell(
     child: SizedBox(
@@ -27,31 +39,19 @@ Widget makeInfoCard(BuildContext context, String username, Map data) {
               Container(
                 height: 20,
               ),
-              Text(("身高: " + data["height"]).padRight(36, " "),
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  )),
+              makeTextRow(("身高: " + data["height"]).padRight(0, " ")),
               Container(
                 height: 15,
               ),
-              Text(("体重: " + data["weight"]).padRight(36, " "),
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  )),
+              makeTextRow(("体重: " + data["weight"]).padRight(0, " ")),
               Container(
                 height: 15,
               ),
-              Text(("教育程度: " + data["edu"]).padRight(26, " "),
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  )),
+              makeTextRow(("教育程度: " + data["edu"]).padRight(0, " ")),
               Container(
                 height: 15,
               ),
-              Text(("故乡: " + data["hometown"]).padRight(36, " "),
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ))
+              makeTextRow(("故乡: " + data["hometown"]).padRight(0, " ")),
             ],
           ),
         )),
@@ -137,38 +137,46 @@ Widget makeInfoCard(BuildContext context, String username, Map data) {
 }
 
 List<Widget> makeAllInfoCard(BuildContext context, Map<String, dynamic> data) {
-  List<Widget> rowInfoCard = <Widget>[];
+  List<String> rowKeys = [];
   List<Widget> allRow = <Widget>[];
   data.forEach((key, value) {
     // 过滤当前用户本身
     if (key != globals.username) {
-      Widget infoCard = makeInfoCard(context, key, value as Map);
+      // print("Make info card: [$key] [$value]\n");
+      rowKeys.add(key);
+      if (rowKeys.length == 4) {
+        List<Widget> rowInfoCard = <Widget>[];
+        rowKeys.forEach((key) {
+          Widget infoCard = makeInfoCard(context, key, data[key] as Map);
+          rowInfoCard.add(Padding(
+            padding: const EdgeInsets.all(20),
+            child: infoCard,
+          ));
+        });
+        allRow.add(Row(children: rowInfoCard));
+        // print("[RowAdd]: ${allRow.length}");
+        rowKeys.clear();
+      }
+    }
+  });
+  if (rowKeys.length > 0) {
+    List<Widget> rowInfoCard = <Widget>[];
+    rowKeys.forEach((key) {
+      Widget infoCard = makeInfoCard(context, key, data[key] as Map);
       rowInfoCard.add(Padding(
         padding: const EdgeInsets.all(20),
         child: infoCard,
       ));
-      if (rowInfoCard.length == 4) {
-        allRow.add(Row(children: rowInfoCard));
-        rowInfoCard.clear();
-      }
-    }
-  });
-  if (rowInfoCard.length > 0) {
-    allRow.add(Row(
-      children: rowInfoCard,
-    ));
+    });
+    allRow.add(Row(children: rowInfoCard));
+    // print("[RowAdd]: ${allRow.length}");
+    rowKeys.clear();
   }
   return allRow;
 }
 
-class FindWidget extends StatefulWidget {
-  FindWidget({Key key}) : super(key: key);
-  @override
-  _FindWidget createState() => _FindWidget();
-}
-
-class _FindWidget extends State<FindWidget> {
-  _FindWidget() {
+class FindWidget extends StatelessWidget {
+  FindWidget() {
     return;
   }
 
@@ -178,8 +186,9 @@ class _FindWidget extends State<FindWidget> {
       future:
           methodGetAllUsers(), // a previously-obtained Future<String> or null
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        List<Widget> children;
+        List<Widget> children = <Widget>[];
         if (snapshot.hasData) {
+          // print("[snapshot.hasData]: $snapshot.data");
           Map<String, dynamic> data = parseJSON(snapshot.data);
           children = makeAllInfoCard(context, data);
         } else {

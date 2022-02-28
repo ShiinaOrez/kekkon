@@ -12,6 +12,7 @@ Future<String> methodLogin(String username, String password) async {
 Future<bool> methodHasPublished(String username) async {
   final bool value =
       await requesterCh.invokeMethod('has_published', {"username": username});
+  print('[HasPublished]: return $value');
   return value;
 }
 

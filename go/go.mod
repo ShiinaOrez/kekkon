@@ -1,4 +1,4 @@
-module github.com/go-flutter-desktop/examples/pe_parser/desktop
+module github.com/go-flutter-desktop/examples/kekkon/desktop
 
 go 1.12
 

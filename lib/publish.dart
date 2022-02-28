@@ -104,6 +104,16 @@ class _PublishWidget extends State<PublishWidget> {
                                 color: Color(0xffC4C4C4),
                                 borderRadius: BorderRadius.circular(20),
                               ),
+                              child: Center(
+                                child: Text('-- HELP INFORMATION --' +
+                                    '\n发布时请注意发布信息需要填写完整' +
+                                    '\n例如：' +
+                                    '\n    身高：170cm 或 一米七;' +
+                                    '\n    体重：100斤 或 50kg;' +
+                                    '\n    学历：本科 或 哈工大硕士;' +
+                                    '\n    故乡：武汉 或 湖北宜昌;' +
+                                    '\n    留言：「你想对追寻者说的话」;'),
+                              ),
                             ),
                           ),
                           Padding(
@@ -136,24 +146,6 @@ class _PublishWidget extends State<PublishWidget> {
                                         .then((value) {
                                       ret = value;
                                       return value == "";
-                                      // }).then((success) {
-                                      //   showDialog(
-                                      //       context: context,
-                                      //       builder: (context) {
-                                      //         // 展示登陆成功
-                                      //         if (success) {
-                                      //           print("login success");
-                                      //           return AlertDialog(
-                                      //               title: Text(
-                                      //                   "发布成功/ Publish Success"));
-                                      //         }
-                                      //         // 展示登陆失败
-                                      //         return AlertDialog(
-                                      //           title: Text("发布失败/ Publish Failed"),
-                                      //           content: new Text(ret),
-                                      //         );
-                                      //       });
-                                      //   return success;
                                     }).then((success) {
                                       if (success) {
                                         Navigator.pushNamed(

@@ -10,7 +10,7 @@ import (
 )
 
 var options = []flutter.Option{
-	flutter.WindowInitialDimensions(900, 500),
+	flutter.WindowInitialDimensions(1100, 620),
 	flutter.AddPlugin(&AppRequester{}),
 }
 

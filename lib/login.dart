@@ -5,13 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kekkon/method.dart';
 import 'globals.dart' as globals;
 
-class LoginWidget extends StatefulWidget {
-  LoginWidget({Key key}) : super(key: key);
-  @override
-  _LoginWidget createState() => _LoginWidget();
-}
-
-class _LoginWidget extends State<LoginWidget> {
+class LoginWidget extends StatelessWidget {
   final TextEditingController userNameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
@@ -81,23 +75,6 @@ class _LoginWidget extends State<LoginWidget> {
                                 .then((value) {
                               ret = value;
                               return value == "";
-                              // }).then((success) {
-                              //   showDialog(
-                              //       context: context,
-                              //       builder: (context) {
-                              //         // 展示登陆成功
-                              //         if (success) {
-                              //           print("login success");
-                              //           return AlertDialog(
-                              //               title: Text("登陆成功/ Login Success"));
-                              //         }
-                              //         // 展示登陆失败
-                              //         return AlertDialog(
-                              //           title: Text("登陆失败/ Login Failed"),
-                              //           content: new Text(ret),
-                              //         );
-                              //       });
-                              //   return success;
                             }).then((success) {
                               if (success) {
                                 globals.isLogin = true;
@@ -106,6 +83,17 @@ class _LoginWidget extends State<LoginWidget> {
                                 Navigator.pushNamed(context, "/login_success",
                                     arguments: {
                                       "username": userNameController.text,
+                                    });
+                                return;
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      // 展示登陆失败
+                                      return AlertDialog(
+                                        title: Text("登陆失败/ Login Failed"),
+                                        content: new Text(ret),
+                                      );
                                     });
                                 return;
                               }
@@ -126,6 +114,10 @@ class _LoginWidget extends State<LoginWidget> {
                   decoration: BoxDecoration(
                       color: Color(0xffC4C4C4),
                       borderRadius: BorderRadius.circular(20)),
+                  child: Center(
+                    child:
+                        Text('-- HELP INFORMATION --\n登陆界面在调试阶段请使用一样的用户名和密码'),
+                  ),
                 ),
               ),
             ],
